@@ -1,8 +1,9 @@
 export interface User{
     nome:string,
+    telefone:string,
+    sexo:string,
     email:string,
-    telefone:string
-    profissao:string,
+    data_nasc:string,
     senha:string,
     cpf:string
 }                                                                                                                                                                                

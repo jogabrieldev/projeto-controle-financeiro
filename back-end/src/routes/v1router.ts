@@ -7,5 +7,9 @@ v1Router.post("/user", (req : Request, res : Response)=>{
     const userController = new UserController();
     return userController.createUser(req, res);
 })
+v1Router.get("/user",(req : Request, res : Response)=>{
+    const userController = new UserController();
+    return userController.getUser(req, res);
+})
 
 export default v1Router;

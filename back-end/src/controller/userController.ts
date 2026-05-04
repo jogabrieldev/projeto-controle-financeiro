@@ -23,4 +23,13 @@ export default class UserController{
             });
         }
     }
+
+    public async getUser(req:Request, res: Response){
+      try {
+         const returnUsers =await userService.getUser()
+         return res.status(200).json({message: "sucesso na busca" , user:returnUsers})
+      } catch (error) {
+        return res.status(500).json({message:"Erro interno no servidor"})
+      }
+    }
 }
