@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
-import {User} from "../types/userTypes";
+import {User} from "../types/userType";
 import { UserService } from "../services/registerUser";
-
+import { generateToken } from "../services/authService"
 const userService = new UserService();
 export default class UserController{
      
@@ -21,6 +21,25 @@ export default class UserController{
             return res.status(500).json({ 
                 message: error.message || "Erro interno no servidor." 
             });
+        }
+    }
+
+    public async login(req: Request, res: Response) {
+        try {
+            const data = req.body;
+            const user = await userService.validateUserCredentials(data);
+            if (!user) {
+                return res.status(401).json({ message: "E-mail ou senha inválidos." });
+            }
+            const token = generateToken(user.id);
+            return res.status(200).json({message: "Login realizado com sucesso",
+              user: { id: user.id, email: user.email, name: user.nome, type: user.tipo_receber},
+              token
+            });
+
+        } catch (error: any) {
+            console.log("error" + error)
+            return res.status(500).json({ message: "Erro ao processar login." });
         }
     }
 

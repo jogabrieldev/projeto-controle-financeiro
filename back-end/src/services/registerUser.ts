@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
-import { User } from "../types/userTypes";
+import { User } from "../types/userType";
 import { UserModels } from "../infra/userModels";
+import { AuthUser } from "../types/authType";
 
 const userModel = new UserModels();
 
@@ -16,6 +17,23 @@ export class UserService {
             throw new Error("Erro ao criar usuário no banco de dados.");
         }
         return createdUser;
+    }
+    public async validateUserCredentials(credentials: AuthUser): Promise<any | null> {
+
+       const { email, password } = credentials;
+       const user = await userModel.getUserByEmail(email);
+        if (!user){
+          throw new Error("Usuário não encontrado")
+        };
+        const isMatch = await bcrypt.compare(password, user.senha);
+        if (!isMatch){
+            throw new Error("Senha passado pelo o usuário esta INCORRETA")
+        }
+        return {
+            email: user.email,
+            nome: user.nome,
+            tipo_receber:user.tipo_receber
+        }
     }
 
     public async getUser(){
