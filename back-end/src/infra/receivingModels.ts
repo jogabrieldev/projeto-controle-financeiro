@@ -4,7 +4,6 @@ import { receiving } from "../types/receivingType";
 export class ReceivingModels {
      
     async insertReceiving (Data: receiving): Promise<receiving | null>{
-           
         const query:string = `INSERT INTO receber (usuario_id, descricao, valor) VALUES ($1, $2, $3)RETURNING *;`; 
             const values = [Data.id_user,Data.descricao,Data.valor];
             try {
