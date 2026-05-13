@@ -30,6 +30,7 @@ export class UserService {
             throw new Error("Senha passado pelo o usuário esta INCORRETA")
         }
         return {
+            id: user.id_user,
             email: user.email,
             nome: user.nome,
             tipo_receber:user.tipo_receber

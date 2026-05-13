@@ -13,6 +13,5 @@ export class ReceivingModels {
                 console.error("Erro ao inserir valor recebido:", error);
                 throw new Error("Erro para inserir valor recebido pelo o usuário no sistema!" +`${error}`);
             }
-         
         }
 }

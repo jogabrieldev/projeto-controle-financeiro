@@ -5,6 +5,6 @@ const conn = new ReceivingModels()
 export class ReceivingService {
     
     public validateInsertReceiving(data:receiving){
-       conn.insertReceiving(data)
+       return  conn.insertReceiving(data)
     }
 }

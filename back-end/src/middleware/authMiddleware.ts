@@ -2,16 +2,19 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
+  const authHeader= req.headers.authorization;
   if (!authHeader) {
     return res.status(401).json({ error: 'Token não fornecido' });
   }
   const [, token] = authHeader.split(' ');
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-    (req as any).userId = (decoded as any).id;
+    const decoded:any = jwt.verify(token, process.env.JWT_SECRET as string);
+    if (!decoded || !decoded.id) {
+    return res.status(401).json({ error: 'Token não contém ID de usuário' });
+  }
+  (req as any).userId = decoded.id;
     
-    return next();
+    next();
   } catch (err) {
     return res.status(401).json({ error: 'Token inválido' });
   }

@@ -33,13 +33,13 @@ export class UserModels {
     }
 
     async getUserByEmail(email: string): Promise<any | null> {
-     const query = "SELECT id_user, email, senha, nome, tipo_receber FROM usuario WHERE email = $1";
+        const query = "SELECT id_user, email, senha, nome FROM usuario WHERE email = $1";
         try {
-         const result = await pool.query(query, [email]);
-         return result.rows[0] || null;
+            const result = await pool.query(query, [email]);
+            return result.rows[0] || null;
         } catch (error) {
-          console.error("Erro ao buscar usuário por email:", error);
-         throw new Error("Erro na consulta ao banco de dados.");
+            console.error("Erro ao buscar usuário:", error);
+            throw new Error("Erro na consulta de autenticação.");
         }
     }
 
