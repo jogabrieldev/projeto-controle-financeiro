@@ -43,6 +43,17 @@ export class UserModels {
         }
     }
 
+    async findById(id_user:number): Promise<any | null>{
+      const query = "SELECT id_user FROM usuario WHERE id_user= $1"
+      try {
+        const result= await pool.query(query, [id_user]);
+        return result.rows[0] || null
+      } catch (error:any) {
+        console.error("Erro ao buscar usuário:", error);
+        throw new Error("Erro na buscar pelo o usuario ou usuario não encontrado.");
+      }
+    }
+
     async getAllUsers(): Promise<User[]>{
        const query:string = "SELECT * FROM usuario";
        try {
